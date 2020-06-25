@@ -1,0 +1,45 @@
+{
+  "label": "topsStack Processor",
+  "submission_type": "individual",
+  "allowed_accounts": [ "ops" ],
+  "action-type":  "both",
+  "params": [
+    {
+      "name": "min_lat",
+      "from": "submitter",
+      "type": "number",
+      "optional": true
+    },
+    {
+      "name": "max_lat",
+      "from": "submitter",
+      "type": "number",
+      "optional": true
+    },
+    {
+      "name": "min_lon",
+      "from": "submitter",
+      "type": "number",
+      "optional": true
+    },
+    {
+      "name": "max_lon",
+      "from": "submitter",
+      "type": "number",
+      "optional": true
+    },
+    {
+      "name": "master_date",
+      "from": "submitter",
+      "type": "text",
+      "placeholder": "ex. 20190101",
+      "optional": true
+    },
+    {
+      "name":"localize_products",
+      "from":"dataset_jpath:",
+      "type":"text",
+      "lambda" : "lambda met: get_partial_products(met['_id'],get_best_url(met['_source']['urls']),[met['_id']+'.zip',met['_id']+'.met.json',met['_id']+'.dataset.json'])"
+    }
+  ]
+}

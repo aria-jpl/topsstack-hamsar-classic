@@ -1,0 +1,37 @@
+{
+  "recommended_queues": ["standard_product-topsstack"],
+  "command": "/home/ops/verdi/ops/topsstack/run_stack.sh",
+  "imported_worker_files": {
+    "/home/ops/.netrc": "/home/ops/.netrc",
+    "/home/ops/.aws": "/home/ops/.aws"
+  },
+  "soft_time_limit": 432000,
+  "time_limit": 432000,
+  "disk_usage": "1000GB",
+  "params": [
+    {
+      "name": "min_lat",
+      "destination": "context"
+    },
+    {
+      "name": "max_lat",
+      "destination": "context"
+    },
+    {
+      "name": "min_lon",
+      "destination": "context"
+    },
+    {
+      "name": "max_lon",
+      "destination": "context"
+    },
+    {
+      "name": "master_date",
+      "destination": "context"
+    },
+    {
+      "name":"localize_products",
+      "destination": "localize"
+    } 
+  ]
+}
