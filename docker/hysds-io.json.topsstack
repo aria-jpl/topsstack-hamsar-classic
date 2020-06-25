@@ -1,5 +1,5 @@
 {
-  "label": "topsStack Processor",
+  "label": "topsStack Processor for HAMSAR",
   "submission_type": "individual",
   "allowed_accounts": [ "ops" ],
   "action-type":  "both",
