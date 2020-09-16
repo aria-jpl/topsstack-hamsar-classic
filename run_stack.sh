@@ -79,8 +79,8 @@ echo $runtime1
 start=`date +%s`
 Num=`cat run_files/run_02_unpack_slave_slc | wc | awk '{print $1}'`
 echo $Num
-echo "cat run_files/run_02_unpack_slave_slc | parallel -j+10 --eta --load 100%"
-cat run_files/run_02_unpack_slave_slc | parallel -j+10 --eta --load 100%
+echo "cat run_files/run_02_unpack_slave_slc | parallel -j2 --eta --load 50%"
+cat run_files/run_02_unpack_slave_slc | parallel -j2 --eta --load 50%
 end=`date +%s`
 
 runtime2=$((end-start))
@@ -88,8 +88,8 @@ echo runtime2
 
 ## STEP 2.5 ##
 start=`date +%s`
-echo "cat run_files/run_02.5_slc_noise_calibration | parallel -j+10 --eta --load 100%"
-cat run_files/run_02.5_slc_noise_calibration | parallel -j+10 --eta --load 100%
+echo "cat run_files/run_02.5_slc_noise_calibration | parallel -j2 --eta --load 50%"
+cat run_files/run_02.5_slc_noise_calibration | parallel -j2 --eta --load 50%
 end=`date +%s`
 
 runtime2x5=$((end-start))
@@ -97,24 +97,24 @@ echo $runtime2x5
 
 ## STEP 3 ##
 start=`date +%s`
-echo "cat run_files/run_03_average_baseline | parallel -j+10 --eta --load 100%"
-cat run_files/run_03_average_baseline | parallel -j+10 --eta --load 100%
+echo "cat run_files/run_03_average_baseline | parallel -j2 --eta --load 50%"
+cat run_files/run_03_average_baseline | parallel -j2 --eta --load 50%
 end=`date +%s`
 runtime3=$((end-start))
 echo $runtime3
 
 ## STEP 4 ##
 start=`date +%s`
-echo "cat run_files/run_04_fullBurst_geo2rdr  | parallel -j+10 --eta --load 100%"
-cat run_files/run_04_fullBurst_geo2rdr  | parallel -j+10 --eta --load 100%
+echo "cat run_files/run_04_fullBurst_geo2rdr  | parallel -j2 --eta --load 50%"
+cat run_files/run_04_fullBurst_geo2rdr  | parallel -j2 --eta --load 50%
 end=`date +%s`
 runtime4=$((end-start))
 echo $runtime4
 
 ## STEP 5 ##
 start=`date +%s`
-echo "cat run_files/run_05_fullBurst_resample  | parallel -j+10 --eta --load 100%"
-cat run_files/run_05_fullBurst_resample  | parallel -j+10 --eta --load 100%
+echo "cat run_files/run_05_fullBurst_resample  | parallel -j2 --eta --load 50%"
+cat run_files/run_05_fullBurst_resample  | parallel -j2 --eta --load 50%
 end=`date +%s`
 runtime5=$((end-start))
 echo $runtime5
@@ -129,16 +129,16 @@ echo $runtime6
 
 ## STEP 7 ##
 start=`date +%s`
-echo "cat run_files/run_07_merge  | parallel -j+10 --eta --load 100%"
-cat run_files/run_07_merge | parallel -j+10 --eta --load 100%
+echo "cat run_files/run_07_merge  | parallel -j2 --eta --load 50%"
+cat run_files/run_07_merge | parallel -j2 --eta --load 50%
 end=`date +%s`
 runtime7=$((end-start))
 echo $runtime7
 
 ### STEP 7 ##
 #start=`date +%s`
-#echo "cat run_files/run_7_geo2rdr_resample   | parallel -j+10 --eta --load 100%"
-#cat run_files/run_7_geo2rdr_resample   | parallel -j+10 --eta --load 100%
+#echo "cat run_files/run_7_geo2rdr_resample   | parallel -j2 --eta --load 50%"
+#cat run_files/run_7_geo2rdr_resample   | parallel -j2 --eta --load 50%
 #end=`date +%s`
 #runtime7=$((end-start))
 #echo $runtime7
@@ -154,16 +154,16 @@ echo $runtime7
 #
 ### STEP 9 ##
 #start=`date +%s`
-#echo "cat run_files/run_9_merge  | parallel -j+10 --eta --load 100%"
-#cat run_files/run_9_merge  | parallel -j+10 --eta --load 100%
+#echo "cat run_files/run_9_merge  | parallel -j2 --eta --load 50%"
+#cat run_files/run_9_merge  | parallel -j2 --eta --load 50%
 #end=`date +%s`
 #runtime9=$((end-start))
 #echo $runtime9
 #
 ### STEP 9 ##
 #start=`date +%s`
-#echo "cat run_files/run_10_grid_baseline  | parallel -j+10 --eta --load 100%"
-#cat run_files/run_10_grid_baseline  | parallel -j+10 --eta --load 100%
+#echo "cat run_files/run_10_grid_baseline  | parallel -j2 --eta --load 50%"
+#cat run_files/run_10_grid_baseline  | parallel -j2 --eta --load 50%
 #end=`date +%s`
 #runtime10=$((end-start))
 #echo $runtime10
