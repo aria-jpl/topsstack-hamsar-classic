@@ -79,7 +79,7 @@ echo $runtime1
 start=`date +%s`
 Num=`cat run_files/run_02_unpack_slave_slc | wc | awk '{print $1}'`
 echo $Num
-echo "cat run_files/run_02_unpack_slave_slc | parallel -j4 --eta --load 50%"
+echo "cat run_files/run_02_unpack_slave_slc | parallel -j3 --eta --load 50%"
 cat run_files/run_02_unpack_slave_slc | parallel -j4 --eta --load 50%
 end=`date +%s`
 
