@@ -11,7 +11,7 @@ import shutil
 def figure_out_common_iw_dirs(topDirPath):
 
     # get names of IW subdirs under master dir as set
-    masterDirPath = os.path.join(topDirPath, "master")
+    masterDirPath = os.path.join(topDirPath, "referance")
 
     namesOfIWDirsInMasterDir = set()
     entries = os.scandir(masterDirPath)
@@ -23,7 +23,7 @@ def figure_out_common_iw_dirs(topDirPath):
 
     # find IW subdirs under slaves dirs and save as d,
     # a map from slave date to set of names of IW dirs = {}
-    slavesDirPath = os.path.join(topDirPath, "slaves")
+    slavesDirPath = os.path.join(topDirPath, "secondarys")
 
     d = {}
     for dirPath, dirNames, files in os.walk(slavesDirPath, topdown=False):
@@ -55,7 +55,7 @@ def clean_iw_dirs(topDirPath, commonIWNameSet):
     dirsToDelete = []
 
     # check master dir
-    masterDirPath = os.path.join(topDirPath, "master")
+    masterDirPath = os.path.join(topDirPath, "referance")
     entries = os.scandir(masterDirPath)
     for entry in entries:
         if not entry.is_dir() or not entry.name.startswith("IW"):
@@ -65,7 +65,7 @@ def clean_iw_dirs(topDirPath, commonIWNameSet):
         dirsToDelete.append(os.path.join(masterDirPath, entry.name))
 
     # check slave dirs
-    slavesDirPath = os.path.join(topDirPath, "slaves")
+    slavesDirPath = os.path.join(topDirPath, "secondarys")
     for dirPath, dirNames, files in os.walk(slavesDirPath, topdown=False):
         tmp = dirPath.split(os.sep)
         # only check for subdirs like .../slaves/20190424/IW3

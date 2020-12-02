@@ -75,18 +75,18 @@ gnuParallelOptions="-j2 --eta --load 50%"
 ###########################################################################
 ## STEP 1 ##
 start=`date +%s`
-echo "sh run_files/run_01_unpack_topo_master"
-sh run_files/run_01_unpack_topo_master
+echo "sh run_files/run_01_unpack_topo_referance"
+sh run_files/run_01_unpack_topo_referance
 end=`date +%s`
 runtime1=$((end-start))
 echo $runtime1
 
 ## STEP 2 ##
 start=`date +%s`
-Num=`cat run_files/run_02_unpack_slave_slc | wc | awk '{print $1}'`
+Num=`cat run_files/run_02_unpack_secondary_slc | wc | awk '{print $1}'`
 echo $Num
-echo "cat run_files/run_02_unpack_slave_slc | parallel ${gnuParallelOptions}"
-cat run_files/run_02_unpack_slave_slc | parallel ${gnuParallelOptions}
+echo "cat run_files/run_02_unpack_secondary_slc | parallel ${gnuParallelOptions}"
+cat run_files/run_02_unpack_secondary_slc | parallel ${gnuParallelOptions}
 end=`date +%s`
 
 runtime2=$((end-start))
@@ -107,9 +107,9 @@ echo $runtime2x5
 # to discard subswaths that are in boundary condition of sometimes being included per polygon
 start=`date +%s`
 echo "discard subswaths not to be used"
-#find ./master -type d; find ./slaves -type d
+#find ./referance -type d; find ./secondarys -type d
 python ${PGE_BASE}/clean_IW_dirs.py
-#find ./master -type d; find ./slaves -type d
+#find ./referance -type d; find ./secondarys -type d
 end=`date +%s`
 runtimeDiscardSubswaths=$((end-start))
 echo $runtimeDiscardSubswaths
