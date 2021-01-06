@@ -1,4 +1,5 @@
-FROM hysds/isce2:latest-es1
+FROM hysds1/pge-base-conda-isce2:20201212
+#FROM hysds/isce2:latest-es1
 
 # Set to root user
 USER root

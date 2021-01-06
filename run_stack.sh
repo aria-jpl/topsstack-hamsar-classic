@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 source $HOME/.bash_profile
-source /opt/isce2/isce_env.sh
+#source /opt/isce2/isce_env.sh
 
 # Saving the processing start time for .met.json file
 export PROCESSING_START=$(date +%FT%T)
@@ -18,8 +18,8 @@ echo "Coords:"
 echo $MINLAT $MAXLAT $MINLON $MAXLON $MINLAT_LO $MAXLAT_HI $MINLON_LO $MAXLON_HI
 
 # Prep SLCs
-mkdir zip
-mv S1*/*.zip zip
+#mkdir zip
+#mv S1*/*.zip zip
 
 # Get DEM
 echo dem.py -a stitch -b $MINLAT_LO $MAXLAT_HI $MINLON_LO $MAXLON_HI -r -s 1 -c -f
@@ -65,56 +65,81 @@ echo "Making read_calibration_slc.py runfile: $cmd"
 eval $cmd
 echo "**********************************"
 
+# 20200918, xing
+# make sure gnu parallel does not invoke threads stepping on each other
+#gnuParallelOptions="-j+10 --eta --load 100%"
+gnuParallelOptions="-j2 --eta --load 50%"
+
+
 # Jungkyo's GNU parallel for running all steps
 ###########################################################################
 ## STEP 1 ##
 start=`date +%s`
-echo "sh run_files/run_01_unpack_topo_master"
-sh run_files/run_01_unpack_topo_master
+#echo "sh run_files/run_01_unpack_topo_master"
+echo "sh run_files/run_01_unpack_topo_reference"
+#sh run_files/run_01_unpack_topo_master
+sh run_files/run_01_unpack_topo_reference
 end=`date +%s`
 runtime1=$((end-start))
 echo $runtime1
 
 ## STEP 2 ##
 start=`date +%s`
-Num=`cat run_files/run_02_unpack_slave_slc | wc | awk '{print $1}'`
+#Num=`cat run_files/run_02_unpack_slave_slc | wc | awk '{print $1}'`
+Num=`cat run_files/run_02_unpack_secondary_slc | wc | awk '{print $1}'`
 echo $Num
-echo "cat run_files/run_02_unpack_slave_slc | parallel -j+10 --eta --load 100%"
-cat run_files/run_02_unpack_slave_slc | parallel -j+10 --eta --load 100%
+#echo "cat run_files/run_02_unpack_slave_slc | parallel ${gnuParallelOptions}"
+echo "cat run_files/run_02_unpack_secondary_slc | parallel ${gnuParallelOptions}"
+#cat run_files/run_02_unpack_slave_slc | parallel ${gnuParallelOptions}
+cat run_files/run_02_unpack_secondary_slc | parallel ${gnuParallelOptions}
 end=`date +%s`
 
 runtime2=$((end-start))
 echo runtime2
 
+
 ## STEP 2.5 ##
 start=`date +%s`
-echo "cat run_files/run_02.5_slc_noise_calibration | parallel -j+10 --eta --load 100%"
-cat run_files/run_02.5_slc_noise_calibration | parallel -j+10 --eta --load 100%
+echo "cat run_files/run_02.5_slc_noise_calibration | parallel ${gnuParallelOptions}"
+cat run_files/run_02.5_slc_noise_calibration | parallel ${gnuParallelOptions}
 end=`date +%s`
 
 runtime2x5=$((end-start))
 echo $runtime2x5
 
+
+# 20201028, xing
+# to discard subswaths that are in boundary condition of sometimes being included per polygon
+start=`date +%s`
+echo "discard subswaths not to be used"
+#find ./master -type d; find ./slaves -type d
+python ${PGE_BASE}/clean_IW_dirs.py
+#find ./master -type d; find ./slaves -type d
+end=`date +%s`
+runtimeDiscardSubswaths=$((end-start))
+echo $runtimeDiscardSubswaths
+
+
 ## STEP 3 ##
 start=`date +%s`
-echo "cat run_files/run_03_average_baseline | parallel -j+10 --eta --load 100%"
-cat run_files/run_03_average_baseline | parallel -j+10 --eta --load 100%
+echo "cat run_files/run_03_average_baseline | parallel ${gnuParallelOptions}"
+cat run_files/run_03_average_baseline | parallel ${gnuParallelOptions}
 end=`date +%s`
 runtime3=$((end-start))
 echo $runtime3
 
 ## STEP 4 ##
 start=`date +%s`
-echo "cat run_files/run_04_fullBurst_geo2rdr  | parallel -j+10 --eta --load 100%"
-cat run_files/run_04_fullBurst_geo2rdr  | parallel -j+10 --eta --load 100%
+echo "cat run_files/run_04_fullBurst_geo2rdr  | parallel ${gnuParallelOptions}"
+cat run_files/run_04_fullBurst_geo2rdr  | parallel ${gnuParallelOptions}
 end=`date +%s`
 runtime4=$((end-start))
 echo $runtime4
 
 ## STEP 5 ##
 start=`date +%s`
-echo "cat run_files/run_05_fullBurst_resample  | parallel -j+10 --eta --load 100%"
-cat run_files/run_05_fullBurst_resample  | parallel -j+10 --eta --load 100%
+echo "cat run_files/run_05_fullBurst_resample  | parallel ${gnuParallelOptions}"
+cat run_files/run_05_fullBurst_resample  | parallel ${gnuParallelOptions}
 end=`date +%s`
 runtime5=$((end-start))
 echo $runtime5
@@ -129,16 +154,16 @@ echo $runtime6
 
 ## STEP 7 ##
 start=`date +%s`
-echo "cat run_files/run_07_merge  | parallel -j+10 --eta --load 100%"
-cat run_files/run_07_merge | parallel -j+10 --eta --load 100%
+echo "cat run_files/run_07_merge  | parallel ${gnuParallelOptions}"
+cat run_files/run_07_merge | parallel ${gnuParallelOptions}
 end=`date +%s`
 runtime7=$((end-start))
 echo $runtime7
 
 ### STEP 7 ##
 #start=`date +%s`
-#echo "cat run_files/run_7_geo2rdr_resample   | parallel -j+10 --eta --load 100%"
-#cat run_files/run_7_geo2rdr_resample   | parallel -j+10 --eta --load 100%
+#echo "cat run_files/run_7_geo2rdr_resample   | parallel ${gnuParallelOptions}"
+#cat run_files/run_7_geo2rdr_resample   | parallel ${gnuParallelOptions}
 #end=`date +%s`
 #runtime7=$((end-start))
 #echo $runtime7
@@ -154,16 +179,16 @@ echo $runtime7
 #
 ### STEP 9 ##
 #start=`date +%s`
-#echo "cat run_files/run_9_merge  | parallel -j+10 --eta --load 100%"
-#cat run_files/run_9_merge  | parallel -j+10 --eta --load 100%
+#echo "cat run_files/run_9_merge  | parallel ${gnuParallelOptions}"
+#cat run_files/run_9_merge  | parallel ${gnuParallelOptions}
 #end=`date +%s`
 #runtime9=$((end-start))
 #echo $runtime9
 #
 ### STEP 9 ##
 #start=`date +%s`
-#echo "cat run_files/run_10_grid_baseline  | parallel -j+10 --eta --load 100%"
-#cat run_files/run_10_grid_baseline  | parallel -j+10 --eta --load 100%
+#echo "cat run_files/run_10_grid_baseline  | parallel ${gnuParallelOptions}"
+#cat run_files/run_10_grid_baseline  | parallel ${gnuParallelOptions}
 #end=`date +%s`
 #runtime10=$((end-start))
 #echo $runtime10

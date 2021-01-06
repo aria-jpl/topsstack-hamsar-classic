@@ -25,8 +25,8 @@ if __name__ == '__main__':
     if not os.path.exists(dataset_name):
         os.mkdir(dataset_name)
 
-    # move merged/ master/ slaves/ directory to dataset directory
-    move_directories = ['merged', 'master', 'slaves']
+    # move merged/ reference/ secondarys/ directory to dataset directory
+    move_directories = ['merged', 'reference', 'secondarys']
     for directory in move_directories:
         shutil.move(directory, dataset_name)
 
