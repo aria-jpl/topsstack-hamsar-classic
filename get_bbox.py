@@ -20,7 +20,7 @@ def get_user_input_bbox(ctx_file):
     :param ctx_file: dictionary from cxt file
     :return: void
     """
-    min_lat, max_lat, min_lon, max_lon = ctx_file['region_of_interest']
+    min_lat, max_lat, min_lon, max_lon = ctx_file['bbox']
 
     min_lat_lo = floor(min_lat)
     max_lat_hi = ceil(max_lat)
