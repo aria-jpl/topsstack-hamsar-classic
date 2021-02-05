@@ -31,8 +31,8 @@ if __name__ == '__main__':
     PWD = os.getcwd()
 
     # grab coordinates that was used in stack processor
-    args = create_parser()
-    coordinates = bbox2coords(args.bbox_str)
+    inps = create_parser()
+    coordinates = bbox2coords(inps.bbox_str)
 
     # creating list of all SLC .dataset.json and .met.json files
     context_json = read_context()
