@@ -15,7 +15,6 @@ def load_context():
 
 
 def get_user_input_bbox(ctx_file):
-    #TODO: use the user bbox from FACET (see the region from create AOI the last time)
     """
     :param ctx_file: dictionary from cxt file
     :return: void
