@@ -63,7 +63,7 @@ def main():
     ctx = load_context()
     # min_lat, max_lat, min_lon, max_lon = ctx['region_of_interest']
 
-    if ctx['region_of_interest']:
+    if ctx['bbox']:
         # if any values are present in _context.json we can assume user put them in manually
         bbox_data = get_user_input_bbox(ctx)
     else:
