@@ -10,19 +10,7 @@
   "disk_usage": "3000GB",
   "params": [
     {
-      "name": "min_lat",
-      "destination": "context"
-    },
-    {
-      "name": "max_lat",
-      "destination": "context"
-    },
-    {
-      "name": "min_lon",
-      "destination": "context"
-    },
-    {
-      "name": "max_lon",
+      "name": "bbox",
       "destination": "context"
     },
     {
