@@ -5,7 +5,7 @@ source $HOME/.bash_profile
 
 
 conda activate
-export ISCE_STACK=/opt/conda/share/isce2/topsStack/stackSentinel.py
+export ISCE_STACK=/opt/conda/share/isce2/topsStack
 export PATH=$PATH:$ISCE_HOME/bin:$ISCE_HOME/applications:$ISCE_STACK
 
 # Saving the processing start time for .met.json file
