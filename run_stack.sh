@@ -9,6 +9,8 @@ export PROCESSING_START=$(date +%FT%T)
 set -e 
 PGE_BASE=$(cd `dirname ${BASH_SOURCE}`; pwd)
 
+source ${PGE_BASE}/isce2_init.sh
+
 # Get user's bounding box coordinates and outer box with integer coordinates
 TOKENS=$(python ${PGE_BASE}/get_bbox.py _context.json)
 IFS=" "
