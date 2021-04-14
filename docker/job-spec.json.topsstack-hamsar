@@ -14,6 +14,22 @@
       "destination": "context"
     },
     {
+      "name": "min_lat",
+      "destination": "context"
+    },
+    {
+      "name": "max_lat",
+      "destination": "context"
+    },
+    {
+      "name": "min_lon",
+      "destination": "context"
+    },
+    {
+      "name": "max_lon",
+      "destination": "context"
+    },
+    {
       "name": "master_date",
       "destination": "context"
     },
