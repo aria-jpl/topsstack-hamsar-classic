@@ -1,4 +1,6 @@
 from utils import *
+import argparse
+
 
 
 def read_context():
@@ -7,14 +9,35 @@ def read_context():
         return cxt
 
 
+def bbox2coords(bbox_string):
+    snwe = bbox_string.split(',')
+    bboxS = float(snwe[0])
+    bboxN = float(snwe[1])
+    bboxW = float(snwe[2])
+    bboxE = float(snwe[3])
+    coords = [[bboxW, bboxN], [bboxE, bboxN], [bboxE, bboxS], [bboxW, bboxS], [bboxW, bboxN]]
+    return coords
+
+def create_parser():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('-b', '--bbox_str', default="", help="poly string including 'POLYGON((*))'")
+    args = parser.parse_args()
+
+    return args
+
 if __name__ == '__main__':
     VERSION = 'v1.0'
     DATASET_NAMING_TEMPLATE = 'coregistered_slcs-{min_timestamp}-{max_timestamp}'
     PWD = os.getcwd()
 
+    # grab coordinates that was used in stack processor
+    inps = create_parser()
+    coordinates = bbox2coords(inps.bbox_str)
+
     # creating list of all SLC .dataset.json and .met.json files
     context_json = read_context()
     dataset_json_files, met_json_files = get_dataset_met_json_files(context_json)
+
 
     # getting list of SLC scenes and extracting min max timestamp
     slc_scenes = get_scenes(context_json)
@@ -32,10 +55,10 @@ if __name__ == '__main__':
 
     # move _stdout.txt log file to dataset
     shutil.copyfile('_stdout.txt', os.path.join(dataset_name, '_stdout.txt'))
-
     # generate .dataset.json data
     dataset_json_data = generate_dataset_json_data(dataset_json_files, VERSION)
     dataset_json_data['label'] = dataset_name
+    dataset_json_data['location'] = {'type': 'Polygon', 'coordinates': [coordinates]}
     print(json.dumps(dataset_json_data, indent=2))
 
     # generate .met.json data

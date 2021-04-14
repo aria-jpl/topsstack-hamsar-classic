@@ -3,6 +3,11 @@
 source $HOME/.bash_profile
 #source /opt/isce2/isce_env.sh
 
+
+conda activate
+export ISCE_STACK=/opt/conda/share/isce2/topsStack
+export PATH=$PATH:$ISCE_HOME/bin:$ISCE_HOME/applications:$ISCE_STACK
+
 # Saving the processing start time for .met.json file
 export PROCESSING_START=$(date +%FT%T)
 
@@ -156,8 +161,8 @@ echo $runtime6
 
 ## STEP 7 ##
 start=`date +%s`
-echo "cat run_files/run_07_merge  | parallel ${gnuParallelOptions}"
-cat run_files/run_07_merge | parallel ${gnuParallelOptions}
+echo "cat run_files/run_07_merge_reference_secondary_slc  | parallel ${gnuParallelOptions}"
+cat run_files/run_07_merge_reference_secondary_slc | parallel ${gnuParallelOptions}
 end=`date +%s`
 runtime7=$((end-start))
 echo $runtime7
@@ -211,4 +216,4 @@ echo "@ Step 7:  $runtime7"
 
 
 # Publishing dataset after stack processor completes
-python /home/ops/verdi/ops/topsstack/create_dataset.py
+python /home/ops/verdi/ops/topsstack/create_dataset.py -b "${MINLAT},${MAXLAT},${MINLON},${MAXLON}"

@@ -19,10 +19,7 @@ def get_user_input_bbox(ctx_file):
     :param ctx_file: dictionary from cxt file
     :return: void
     """
-    min_lat = ctx_file['min_lat']
-    max_lat = ctx_file['max_lat']
-    min_lon = ctx_file['min_lon']
-    max_lon = ctx_file['max_lon']
+    min_lat, max_lat, min_lon, max_lon = ctx_file['bbox']
 
     min_lat_lo = floor(min_lat)
     max_lat_hi = ceil(max_lat)
@@ -65,7 +62,7 @@ def main():
     ctx = load_context()
     # min_lat, max_lat, min_lon, max_lon = ctx['region_of_interest']
 
-    if ctx['min_lat'] != "" or ctx['max_lat'] != "" or ctx['min_lon'] != "" or ctx['max_lon'] != "":
+    if ctx['bbox']:
         # if any values are present in _context.json we can assume user put them in manually
         bbox_data = get_user_input_bbox(ctx)
     else:
