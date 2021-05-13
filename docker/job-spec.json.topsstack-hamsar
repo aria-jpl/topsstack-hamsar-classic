@@ -2,8 +2,8 @@
   "recommended_queues": ["standard_product-topsstack"],
   "command": "/home/ops/verdi/ops/topsstack/run_stack.sh",
   "imported_worker_files": {
-    "/home/ops/.netrc": "/home/ops/.netrc",
-    "/home/ops/.aws": "/home/ops/.aws"
+    "$HOME/.netrc": "/home/ops/.netrc",
+    "$HOME/.aws": "/home/ops/.aws"
   },
   "soft_time_limit": 432000,
   "time_limit": 432000,
