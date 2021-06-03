@@ -24,3 +24,5 @@ export MINLAT_LO MAXLAT_HI MINLON_LO MAXLON_HI
 # make sure gnu parallel does not invoke threads stepping on each other
 #gnuParallelOptions="-j+10 --eta --load 100%"
 gnuParallelOptions="-j2 --eta --load 50%"
+
+export gnuParallelOptions
