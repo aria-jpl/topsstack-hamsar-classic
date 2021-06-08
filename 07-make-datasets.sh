@@ -1,2 +1,2 @@
 # Publishing dataset after stack processor completes
-python /home/ops/verdi/ops/topsstack/create_dataset.py
+python ${PGE_BASE}/create_dataset.py -b "$MINLAT,$MAXLAT,$MINLON,$MAXLON"
